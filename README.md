@@ -1,41 +1,60 @@
 # SQL Scripts
-Useful sql scripts for MSSQL, MySQL, Oracle, PostgreSQL, and Greenplum.  These are based on years of usage and refinement.  These are common scripts used by data analysts, software testers, and other database professionals.<br>
-<br>
 
+Production-tested SQL scripts for **MS SQL Server**, **MySQL**, **Oracle**, **PostgreSQL**, and **Greenplum**. Useful utilities for data analysts, data engineers, QA testers, and database administrators.
 
+---
 
-## [Data Dictionary](https://github.com/DataResearchLabs/sql_scripts/blob/main/data_dictionary_scripts.md)
+## Quick Navigation
 
-<img align="right" src="https://github.com/DataResearchLabs/sql_scripts/blob/main/img/02_data_dictionary_in_xl.png" width="300px">
+| Database Platform | Data Dictionary | Data Validation | SchemaDiff |
+| :--- | :---: | :---: | :---: |
+| **PostgreSQL** | [Script](postgresql/data_dictionary/data_dict_dump.sql) | [Tests & Docs](postgresql/data_validation/how_to_use_basic_script.md) | [Diff Script](postgresql/schemadiff/simple_schema_dump.sql) |
+| **MySQL** | [Script](mysql/data_dictionary/data_dict_dump.sql) | [Tests & Docs](mysql/data_validation/how_to_use_basic_script.md) | [Diff Script](mysql/schemadiff/simple_schema_dump.sql) |
+| **MS SQL Server** | [Script](mssql/data_dictionary/data_dict_dump.sql) | [Tests & Docs](mssql/data_validation/how_to_use_basic_script.md) | [Diff Script](mssql/schemadiff/simple_schema_dump.sql) |
+| **Oracle** | [Script](oracle/data_dictionary/data_dict_dump.sql) | [Tests & Docs](oracle/data_validation/how_to_use_basic_script.md) | [Diff Script](oracle/schemadiff/simple_schema_dump.sql) |
+| **Greenplum** | [Script](greenplum/data_dictionary/data_dict_dump.sql) | — | [Diff Script](greenplum/schemadiff/simple_schema_dump.sql) |
 
-The Data Dictionary script and tutorials enable you to easily document an existing database schema.  You can dump the tables, views, column descriptions, data types/lengths/sizes/precision, key constraints, and other information.  Export to Excel for pretty output and simple filtering, searching, and sharing.<br>
-<br>
-<br>
-<br>
-<br>
+---
 
+## Core Frameworks & Tools
 
-## [Data Validation Scripts](https://github.com/DataResearchLabs/sql_scripts/blob/main/data_validation_scripts.md)
+### 1. [Data Dictionary](data_dictionary_scripts.md)
 
-<img align="right" src="https://github.com/DataResearchLabs/sql_scripts/blob/main/img/04_data_validation_scripts.png" width="300px">
+<img align="right" src="img/02_data_dictionary_in_xl.png" alt="Data Dictionary in Excel" width="300px">
 
-The Data Validation Framework scripts and tutorials enable you to easily standup a battery of automated data validation tests in your environment.  Use the DVF for prod checkouts, or test and stage regression tests, or dev unit tests, or automated data validation after each data load.  There are nine rule sets depicting 66 sample test cases to demonstrate how to test for row counts, keys, heuristic thresholds, numeric/date/text values, regular expressions, and data or schema diffs.  The basic data validation script demonstrations executes all 66 sample validation tests putting out one line of text with the test id, status, and test description -- a nice simple way to organize your tests.  The advanced data validation scripts execute the same 66 sample validation tests, but pushes output to a table and adds in the execution time in seconds, as well supporting detail rows on fails with the rejection code + reason, the expected value, the actual value, and the SQL to lookup the rejected row so you can copy-paste-execute-and-troubleshoot.<br>
-<br>
+The Data Dictionary script and tutorials enable you to easily document an existing database schema.
+- Extracts tables, views, column properties, data types, lengths, precision, nullability, and key constraints.
+- Includes table and column descriptions/comments where supported.
+- Export directly to Excel or CSV for formatting, searching, filtering, and team documentation baselines.
 
+<br clear="right"/>
 
-## [SchemaDiff](https://github.com/DataResearchLabs/sql_scripts/blob/main/schemadiff_scripts.md)
+### 2. [Data Validation Framework (DVF)](data_validation_scripts.md)
 
-<img align="right" src="https://github.com/DataResearchLabs/sql_scripts/blob/main/img/01_schemadiff_side_by_side.png" width="300px">
+<img align="right" src="img/04_data_validation_scripts.png" alt="Data Validation Framework" width="300px">
 
-The SchemaDiff script and tutorials enable you to track changes to your schema over time or between environments.  You'll know exactly what changed last night with a deployment vs. the prior night's stable baseline.  You'll know when folks are changing your development or test environment every morning rather than 15 days later, avoiding all the troubleshooting red herrings.<br>
-<br>
-<br>
-<br>
-<br>
+A test automation framework providing 66 sample test cases across 9 rule sets:
+- **Test Categories**: Row counts, key integrity, heuristic thresholds, date/numeric boundaries, text validation, regular expressions, diff checks, and defect regression.
+- **Basic Script**: Executes all 66 validation tests and outputs concise single-line statuses (`PASS`/`FAIL`) for quick verification.
+- **Advanced Script**: Pushes results to a tracking table with execution durations, detailed failure reasons, expected vs. actual values, and generated SQL queries to immediately inspect rejected rows.
 
+<br clear="right"/>
 
-***If you like these scripts, please be sure to click the "Star" button above in GitHub.*** <br>
-<br>
-***Also, be sure to visit or subscribe to our YouTube channel*** www.DataResearchLabs.com!<br>
-<br>
-<br>
+### 3. [SchemaDiff](schemadiff_scripts.md)
+
+<img align="right" src="img/01_schemadiff_side_by_side.png" alt="SchemaDiff Side-by-Side" width="300px">
+
+Track database changes over time or between environments:
+- Exports consistent metadata snapshots of tables, columns, indexes, and constraints.
+- Run snapshots before and after release deployments or compare environments (`DEV` vs `TEST` vs `PROD`) using text diff tools (VS Code, DiffMerge, Beyond Compare).
+- Pinpoint unexpected schema drift and eliminate troubleshooting guesswork.
+
+<br clear="right"/>
+
+---
+
+## Community & Resources
+
+- ⭐️ **Star this repository** if you find these scripts useful!
+- 📺 **Video Tutorials:** [DataResearchLabs on YouTube](https://www.youtube.com/channel/UCQciXv3xaBykeUFc04GxSXA)
+- 📄 **License:** [Creative Commons Zero (CC0 1.0)](LICENSE)

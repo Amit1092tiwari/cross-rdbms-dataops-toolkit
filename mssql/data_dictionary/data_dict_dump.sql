@@ -70,7 +70,7 @@ AS (
     END AS data_typ
   , CASE WHEN tut.IS_NULLABLE = 'YES' THEN 'NULL' ELSE 'NOT NULL' END AS nullable
   FROM       INFORMATION_SCHEMA.COLUMNS tut
-  INNER JOIN baseTbl                    bt  ON bt.SchemaName = tut.TABLE_CATALOG AND bt.table_name = tut.table_name
+  INNER JOIN baseTbl                    bt  ON bt.SchemaName = tut.TABLE_CATALOG AND bt.table_schema = tut.TABLE_SCHEMA AND bt.table_name = tut.table_name
 )
 
 , descr
@@ -81,7 +81,7 @@ AS (
   , tut.column_name        AS column_nm
   , STRING_AGG(CAST(de.value AS VARCHAR(1024)), '.  ') WITHIN GROUP (ORDER BY de.value) AS description
   FROM       INFORMATION_SCHEMA.COLUMNS tut
-  INNER JOIN baseTbl                    bt  ON bt.SchemaName = tut.TABLE_CATALOG AND bt.table_name = tut.table_name
+  INNER JOIN baseTbl                    bt  ON bt.SchemaName = tut.TABLE_CATALOG AND bt.table_schema = tut.TABLE_SCHEMA AND bt.table_name = tut.table_name
   LEFT JOIN  sys.extended_properties    de  ON de.major_id = OBJECT_ID(bt.table_schema + '.' + bt.table_name) 
                                            AND de.minor_id = tut.ORDINAL_POSITION
 										   AND de.name = 'MS_Description'

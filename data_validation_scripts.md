@@ -25,7 +25,7 @@ Because each database platform has its own unique flavor of SQL, this page is ju
 <tr>
 <td align="center" valign="top" rowspan=3>
   <br>
-  <img align="enter" src="https://github.com/DataResearchLabs/sql_scripts/blob/main/img/db_icons/mssql_icon.png" width="96px">
+  <img align="center" src="https://github.com/DataResearchLabs/sql_scripts/blob/main/img/db_icons/mssql_icon.png" width="96px">
 </td>
 <td rowspan=3 width=325>
 

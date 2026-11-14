@@ -59,7 +59,7 @@ Links to the script source code as well as video tutorials are listed below, by 
 <tr>
 <td align="center" valign="top">
   <br>
-  <img align="enter" src="https://github.com/DataResearchLabs/sql_scripts/blob/main/img/db_icons/gp_icon.png" width="96px">
+  <img align="center" src="https://github.com/DataResearchLabs/sql_scripts/blob/main/img/db_icons/gp_icon.png" width="96px">
 </td>
 <td>
 

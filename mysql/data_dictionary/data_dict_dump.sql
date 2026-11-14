@@ -58,7 +58,7 @@ AS (
     END ) AS data_typ 
   , CASE WHEN tut.IS_NULLABLE = 'YES' THEN 'NULL' ELSE 'NOT NULL' END AS nullable
   FROM       INFORMATION_SCHEMA.COLUMNS tut
-  INNER JOIN baseTbl                    bt  ON bt.table_catalog = tut.TABLE_CATALOG AND bt.table_name = tut.table_name
+  INNER JOIN baseTbl                    bt  ON bt.SchemaName = tut.TABLE_SCHEMA AND bt.table_name = tut.table_name
 )
 
 , meta_for_keys
