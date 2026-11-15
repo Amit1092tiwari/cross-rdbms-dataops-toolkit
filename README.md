@@ -53,6 +53,18 @@ Track database changes over time or between environments:
 
 ---
 
+## Operational Architecture & Automation
+
+For comprehensive production deployment patterns, refer to the **[Operational Architecture Guide](docs/OPERATIONAL_ARCHITECTURE.md)**.
+
+| Deployment Target | Recommended Frameworks | Implementation / Runner |
+| :--- | :--- | :--- |
+| **CI/CD Gating (PR & Deploy)** | **SchemaDiff** (migration drift) + **DVF Basic** (in-memory BVT) | [`.github/workflows/db-ci.yml`](.github/workflows/db-ci.yml) |
+| **Batch Ingestion (ETL/ELT)** | **DVF Advanced** (circuit-breaker post-load assertions) | [`scripts/run_dvf.py`](scripts/run_dvf.py) / [`scripts/run_dvf.sh`](scripts/run_dvf.sh) |
+| **Daily Schedule (Off-Peak)** | **SchemaDiff** (drift audit) + **DVF Advanced** (full regression) + **Data Dictionary** (catalog sync) | [`.github/workflows/daily-db-audit.yml`](.github/workflows/daily-db-audit.yml) |
+
+---
+
 ## Community & Resources
 
 - ⭐️ **Star this repository** if you find these scripts useful!

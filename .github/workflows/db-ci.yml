@@ -1,0 +1,68 @@
+name: Database CI & PR Validation Gate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate-schema-and-data:
+    name: Schema & Data Validation Gate
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install PostgreSQL Client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Initialize Test Schema & Seed Data
+        env:
+          PGPASSWORD: password
+        run: |
+          echo "Seeding demo_hr schema..."
+          psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/data_validation/demo_data/demo_hr_01_create_database.sql
+          psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/data_validation/demo_data/demo_hr_02_create_tables.sql
+          psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/data_validation/demo_data/demo_hr_03_populate_tables.sql
+
+      - name: "Step 1: Execute SchemaDiff Snapshot"
+        env:
+          PGPASSWORD: password
+        run: |
+          echo "Dumping current schema metadata snapshot..."
+          # Set schema to demo_hr in script variable or run schema dump
+          sed -i "s/'pg_catalog'/'demo_hr'/g" postgresql/schemadiff/simple_schema_dump.sql
+          psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/schemadiff/simple_schema_dump.sql -A -F $'\t' > current_schema.diff.txt
+          echo "Schema snapshot created successfully ($(wc -l < current_schema.diff.txt) rows)."
+
+      - name: Upload SchemaDiff Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: schemadiff-snapshot
+          path: current_schema.diff.txt
+
+      - name: "Step 2: Execute DVF Basic Smoke Tests (BVT)"
+        env:
+          PGPASSWORD: password
+        run: |
+          chmod +x scripts/run_dvf.sh
+          ./scripts/run_dvf.sh postgresql postgresql/data_validation/sql_scripts/dv_basic_test_cases.sql testdb localhost postgres

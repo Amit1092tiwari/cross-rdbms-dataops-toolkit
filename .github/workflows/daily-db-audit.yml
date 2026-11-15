@@ -1,0 +1,75 @@
+name: Daily Database Health, Drift & Catalog Audit
+
+on:
+  schedule:
+    # Runs at 01:00 UTC every day
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  daily-database-audit:
+    name: Run Daily Audit & Catalog Refresh
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client python3
+
+      - name: Seed Database
+        env:
+          PGPASSWORD: password
+        run: |
+          psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/data_validation/demo_data/demo_hr_01_create_database.sql
+          psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/data_validation/demo_data/demo_hr_02_create_tables.sql
+          psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/data_validation/demo_data/demo_hr_03_populate_tables.sql
+
+      - name: "Audit Task 1: Generate Data Dictionary Export"
+        env:
+          PGPASSWORD: password
+        run: |
+          mkdir -p output
+          sed -i "s/'public'/'demo_hr'/g" postgresql/data_dictionary/data_dict_dump.sql
+          psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/data_dictionary/data_dict_dump.sql -A -F ',' > output/data_dictionary_export.csv
+          echo "Data Dictionary exported to output/data_dictionary_export.csv ($(wc -l < output/data_dictionary_export.csv) rows)."
+
+      - name: "Audit Task 2: Schema Drift Detection"
+        env:
+          PGPASSWORD: password
+        run: |
+          sed -i "s/'pg_catalog'/'demo_hr'/g" postgresql/schemadiff/simple_schema_dump.sql
+          psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/schemadiff/simple_schema_dump.sql -A -F $'\t' > output/daily_schemadiff_snapshot.tsv
+          echo "SchemaDiff captured at output/daily_schemadiff_snapshot.tsv."
+
+      - name: "Audit Task 3: Execute Advanced DVF Regression Suite"
+        env:
+          PGPASSWORD: password
+        run: |
+          echo "Executing DVF Advanced Test Suite..."
+          psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/data_validation/sql_scripts/dv_advanced_test_cases.sql > output/dv_advanced_execution.log 2>&1
+          echo "DVF Advanced completed. Logging output..."
+
+      - name: Upload Daily Audit Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: daily-audit-reports-${{ github.sha }}
+          path: output/
