@@ -34,7 +34,7 @@ CREATE TABLE demo_hr.countries
    (country_id CHAR(2) CONSTRAINT country_id_nn NOT NULL, 
 	country_name VARCHAR(40), 
 	region_id INTEGER, 
-	date_last_updated DATE DEFAULT CURRENT_DATE, 
+	date_last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
 	 CONSTRAINT country_c_id_pk PRIMARY KEY (country_id), 
 	 CONSTRAINT countr_reg_fk FOREIGN KEY (region_id) REFERENCES demo_hr.regions (region_id)
    );

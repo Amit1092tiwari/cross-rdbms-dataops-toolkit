@@ -43,6 +43,8 @@ jobs:
           psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/data_validation/demo_data/demo_hr_01_create_database.sql
           psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/data_validation/demo_data/demo_hr_02_create_tables.sql
           psql -h localhost -p 5432 -U postgres -d testdb -f postgresql/data_validation/demo_data/demo_hr_03_populate_tables.sql
+          # Ensure timestamps are within recent lookback windows for dynamic test cases (T004 & T066)
+          psql -h localhost -p 5432 -U postgres -d testdb -c "UPDATE demo_hr.countries SET date_last_updated = CURRENT_TIMESTAMP - INTERVAL '5 days';"
 
       - name: "Step 1: Execute SchemaDiff Snapshot"
         env:

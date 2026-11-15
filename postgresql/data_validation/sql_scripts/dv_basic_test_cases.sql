@@ -122,7 +122,7 @@
 
 -- T007 ------------------------------------------------------------------------------------------
     SELECT 'T007' AS tst_id
-         , CASE WHEN COUNT(*) >= 0 THEN 'FAIL' ELSE 'P' END AS status
+         , CASE WHEN COUNT(*) > 0 THEN 'FAIL' ELSE 'P' END AS status
          , '"RS-2 Keys" #3 - Verify FKeyParentHasChildren() at FKey-Parent [country_id] in table [countries] for select Countries' AS tst_descr   
     FROM (
         SELECT DISTINCT c.country_id AS child_id, p.country_id AS parent_id
@@ -817,6 +817,7 @@
     	SELECT first_name
              , CASE WHEN NOT SUBSTRING(first_name,3,2) ~ '^[a-z]+$' THEN 'FAIL' ELSE 'P' END AS status
     	FROM demo_hr.employees
+    	WHERE LENGTH(first_name) > 2
     ) t
     WHERE status <> 'P';
 
@@ -840,9 +841,9 @@
     FROM (
     	SELECT first_name, SUBSTRING(first_name,1,1) AS first_letter
              , CASE WHEN NOT SUBSTRING(first_name,1,1) ~ '([A-Z])' THEN 'REJ-01: Field first_name first character not upper case|exp=Like"[A-Z]"|act=' || first_name 
-                WHEN first_name NOT LIKE '% %'                     THEN 'allgood'  -- Only one word, so no space + first character to check for uppercase
-	            WHEN NOT first_name ~ '(\s[A-Z]){1}'               THEN 'REJ-02: Field first_name failed RegExpression check|exp=Like"(\s[A-Z]){1}"|act=' || first_name 
-	            ELSE 'P'
+                    WHEN first_name NOT LIKE '% %'                 THEN 'P'  -- Only one word, so no space + first character to check for uppercase
+	                WHEN NOT first_name ~ '(\s[A-Z]){1}'           THEN 'REJ-02: Field first_name failed RegExpression check|exp=Like"(\s[A-Z]){1}"|act=' || first_name 
+	                ELSE 'P'
     	       END AS status
     	FROM demo_hr.employees
     ) t
