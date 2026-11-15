@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Tools
         run: |
@@ -69,7 +69,7 @@ jobs:
           echo "DVF Advanced completed. Logging output..."
 
       - name: Upload Daily Audit Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: daily-audit-reports-${{ github.sha }}
           path: output/
