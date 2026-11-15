@@ -1,4 +1,4 @@
-# SQL Scripts
+# Database Platform Utility (`database-platform-utility-000a01bc`)
 
 Production-tested SQL scripts for **MS SQL Server**, **MySQL**, **Oracle**, **PostgreSQL**, and **Greenplum**. Useful utilities for data analysts, data engineers, QA testers, and database administrators.
 
