@@ -14,7 +14,10 @@ def test_engine_directory_structure():
 
 def test_sql_scripts_exist_and_non_empty():
     """Verify that SQL files exist and contain non-trivial SQL logic."""
-    sql_files = list(REPO_ROOT.glob("**/*.sql"))
+    sql_files = [
+        f for f in REPO_ROOT.glob("**/*.sql")
+        if not any(part.startswith(".") or part in ("venv", ".venv", "env") for part in f.parts)
+    ]
     assert len(sql_files) >= 5, "Expected at least 5 core SQL utility scripts"
     
     for f in sql_files:
