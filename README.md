@@ -1,6 +1,11 @@
 # Cross-RDBMS DataOps Toolkit (`cross-rdbms-dataops-toolkit`)
 
-Production-tested SQL scripts for **MS SQL Server**, **MySQL**, **Oracle**, **PostgreSQL**, and **Greenplum**. Useful utilities for data analysts, data engineers, QA testers, and database administrators.
+[![Database CI Gate](https://github.com/Amit1092tiwari/cross-rdbms-dataops-toolkit/actions/workflows/db-ci.yml/badge.svg)](https://github.com/Amit1092tiwari/cross-rdbms-dataops-toolkit/actions/workflows/db-ci.yml)
+[![Daily DB Audit](https://github.com/Amit1092tiwari/cross-rdbms-dataops-toolkit/actions/workflows/daily-db-audit.yml/badge.svg)](https://github.com/Amit1092tiwari/cross-rdbms-dataops-toolkit/actions/workflows/daily-db-audit.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Engines](https://img.shields.io/badge/Engines-PostgreSQL%20%7C%20MSSQL%20%7C%20MySQL%20%7C%20Oracle%20%7C%20Greenplum-orange.svg)](#quick-navigation)
+
+Production-tested SQL scripts and DataOps automation routines for **PostgreSQL**, **Microsoft SQL Server**, **MySQL**, **Oracle**, and **Pivotal Greenplum**. Designed for enterprise database administrators, data platform engineers, and automated CI validation pipelines.
 
 ---
 
