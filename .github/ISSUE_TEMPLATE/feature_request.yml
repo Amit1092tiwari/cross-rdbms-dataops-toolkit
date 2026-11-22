@@ -1,0 +1,22 @@
+name: Script / Feature Proposal
+description: Propose a new utility script or database engine support
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: use_case
+    attributes:
+      label: DataOps Use Case
+      description: What operational or database task does this script automate?
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Script Category
+      options:
+        - Schema Diff & Drift Detection
+        - Automated Data Dictionary
+        - Data Quality & Sanity Validation
+        - Performance & Index Diagnostics
+    validations:
+      required: true

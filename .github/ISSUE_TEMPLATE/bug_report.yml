@@ -1,0 +1,31 @@
+name: Bug Report
+description: Report an issue or syntax failure in a database script
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for reporting an issue in the Cross-RDBMS DataOps Toolkit!
+  - type: dropdown
+    id: engine
+    attributes:
+      label: Target Database Engine
+      options:
+        - PostgreSQL
+        - Microsoft SQL Server
+        - MySQL / MariaDB
+        - Oracle Database
+        - Pivotal Greenplum
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Script Name & Reproduction
+      description: Which script failed and on what database version?
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Error Output / Log
+      render: shell

@@ -9,6 +9,35 @@ Production-tested SQL scripts and DataOps automation routines for **PostgreSQL**
 
 ---
 
+## 🏛️ DataOps Operational Architecture
+
+```mermaid
+flowchart LR
+    A["Relational Catalog<br/>(Postgres/MSSQL/MySQL/Oracle/Greenplum)"] --> B["1. SchemaDiff Engine<br/>(Extract DDL & Constraints)"]
+    A --> C["2. Data Dictionary<br/>(Auto-Generate Markdown/Docs)"]
+    A --> D["3. Validation Gates<br/>(Automated Integrity Tests)"]
+    B --> E["CI Drift Detection<br/>(GitHub Actions)"]
+    C --> F["Governance & Data Catalogs"]
+    D --> G["Automated Production Release Gate"]
+```
+
+---
+
+## 🚀 Quick Start (Local Docker Testbed)
+
+Spin up local test instances and run the automated test suite with two commands:
+
+```bash
+# 1. Start ephemeral PostgreSQL 15 & MySQL 8 instances
+docker compose up -d
+
+# 2. Run automated validation suite
+pip install pytest
+pytest -v tests/
+```
+
+---
+
 ## Quick Navigation
 
 | Database Platform | Data Dictionary | Data Validation | SchemaDiff |
